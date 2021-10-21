@@ -22,7 +22,7 @@ export default function Results() {
     case "/search":
       return (
         <div className="flex flex-wrap justify-between  sm:px-56 items-center w-full">
-          {results?.results?.map(({ link, title, description }, index) => {
+          {results?.map(({ link, title, description }, index) => {
             return (
               <div key={index} className="md:w-1/2 w-full px-2 py-3 ">
                 <a href={link} target="_blank" rel="noreferrer">
@@ -45,7 +45,7 @@ export default function Results() {
     case "/images":
       return (
         <div className="flex flex-wrap sm:justify-center justify-between items-center w-full">
-          {results?.image_results?.map(({ image, link }, index) => {
+          {results?.map(({ image, link }, index) => {
             return (
               <a
                 key={index}
@@ -62,7 +62,26 @@ export default function Results() {
         </div>
       );
     case "/news":
-      return "News";
+      return (
+        <div className="flex flex-wrap justify-between  sm:px-56 items-center w-full">
+          {results?.map(({ links, id, title, source }) => {
+            return (
+              <div key={id} className="md:w-1/2 w-full px-2 py-3">
+                <a href={links?.[0].href} target="_blank" rel="noreferrer">
+                  <p className="text-lg  dark:text-blue-300 text-blue-700 hover:underline">
+                    {title}
+                  </p>
+                  <div className="flex gap-4">
+                    <a href={source?.href} target="_blank" rel="noreferrer">
+                      {source?.href}
+                    </a>
+                  </div>
+                </a>
+              </div>
+            );
+          })}
+        </div>
+      );
     case "/videos":
       return "Videos";
     default:
