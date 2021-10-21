@@ -11,7 +11,7 @@ export default function Results() {
   useEffect(() => {
     if (searchTerm) {
       if (location.pathname === "/videos") {
-        getResults(`/search/q=${searchTerm}&num=40 videos`);
+        getResults(`/search/q=${searchTerm} videos`);
       } else {
         getResults(`${location.pathname}/q=${searchTerm}&num=40`);
       }
@@ -32,10 +32,6 @@ export default function Results() {
                   <p className="text-lg hover:underline dark:text-blue-300 text-blue-700">
                     {title}
                   </p>
-                  <p className="text-sm">{`${description.substring(
-                    0,
-                    100
-                  )}...`}</p>
                 </a>
               </div>
             );
@@ -64,13 +60,14 @@ export default function Results() {
     case "/news":
       return (
         <div className="flex flex-wrap justify-between  sm:px-56 items-center w-full">
-          {results?.map(({ links, id, title, source }) => {
+          {results?.map(({ links, title, source }, index) => {
             return (
-              <div key={id} className="md:w-1/2 w-full px-2 py-3">
+              <div key={index} className="md:w-1/2 w-full px-2 py-3">
                 <a href={links?.[0].href} target="_blank" rel="noreferrer">
                   <p className="text-lg  dark:text-blue-300 text-blue-700 hover:underline">
                     {title}
                   </p>
+
                   <div className="flex gap-4">
                     <a href={source?.href} target="_blank" rel="noreferrer">
                       {source?.href}
@@ -83,7 +80,25 @@ export default function Results() {
         </div>
       );
     case "/videos":
-      return "Videos";
+      return (
+        <div className="flex flex-wrap">
+          {console.log(results.video)}
+          {results?.map((video, index) => {
+            return (
+              <div key={index} className="p-2">
+                {video.additional_links?.[0].href && (
+                  <ReactPlayer
+                    url={video.additional_links?.[0].href}
+                    controls
+                    width="355px"
+                    height="200px"
+                  />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      );
     default:
       return "Error";
   }
